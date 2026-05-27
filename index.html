@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EU Ubia | Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E9C8;
+    --ink: #0D0D0D;
+    --ink2: #1A1A1A;
+    --ink3: #2A2A2A;
+    --muted: #6B6B6B;
+    --divider: rgba(201,168,76,0.25);
+    --card-bg: #141414;
+    --surface: #111111;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: #E8E8E0;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--divider);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #A0A09A;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 55vw; height: 100%;
+    background: radial-gradient(ellipse at 80% 40%, rgba(201,168,76,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--gold);
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.0;
+    color: #EEEEE8;
+    margin-bottom: 1.5rem;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: #8A8A84;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2.2rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2.2rem;
+    border: 1px solid var(--divider);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .btn-outline:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+  /* ── HERO STATS ── */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    padding: 1.8rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6B6B6B;
+  }
+  .stat-icon {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-size: 1.5rem;
+    opacity: 0.2;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--gold);
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #EEEEE8;
+    margin-bottom: 3rem;
+  }
+  h2 em { font-style: italic; color: var(--gold-light); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--surface); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    padding: 2rem 1.5rem;
+  }
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 0.5px solid var(--divider);
+  }
+  .skill-list { list-style: none; }
+  .skill-list li {
+    font-size: 0.9rem;
+    color: #B0B0A8;
+    padding: 0.4rem 0;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .skill-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+    cursor: default;
+  }
+  .project-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .featured-badge {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    border: 0.5px solid var(--divider);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: #EEEEE8;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+  .project-card p {
+    font-size: 0.88rem;
+    color: #7A7A72;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .tool-chips {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: #8A8A82;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    padding: 0.3rem 0.7rem;
+  }
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.7rem; }
+
+  /* Dashboard preview */
+  .dash-preview {
+    background: #0A0A0A;
+    border: 0.5px solid rgba(255,255,255,0.06);
+    padding: 1.2rem;
+    position: relative;
+  }
+  .dash-bar {
+    display: flex; gap: 0.4rem; margin-bottom: 1rem;
+  }
+  .dash-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .dash-chart {
+    display: flex; align-items: flex-end; gap: 4px;
+    height: 80px; margin-bottom: 0.8rem;
+  }
+  .bar {
+    flex: 1;
+    background: rgba(201,168,76,0.3);
+    border-top: 1px solid var(--gold);
+    min-width: 0;
+    transition: height 0.3s;
+  }
+  .dash-metrics {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+  }
+  .dash-metric {
+    background: rgba(255,255,255,0.03);
+    padding: 0.5rem 0.7rem;
+    border-left: 2px solid var(--gold);
+  }
+  .dash-metric-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    color: var(--gold-light);
+  }
+  .dash-metric-label {
+    font-size: 0.65rem;
+    color: #5A5A52;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-image-block {
+    position: relative;
+  }
+  .about-avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 6rem;
+    color: var(--gold);
+    letter-spacing: -0.05em;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-avatar::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(201,168,76,0.08), transparent);
+  }
+  .about-accent {
+    position: absolute;
+    bottom: -1rem; right: -1rem;
+    width: 60%; height: 60%;
+    border: 1px solid var(--divider);
+    z-index: -1;
+  }
+  .about-text h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: #EEEEE8;
+    margin-bottom: 1.2rem;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+    color: #7A7A72;
+    margin-bottom: 1.2rem;
+    line-height: 1.9;
+  }
+  .about-text p strong {
+    color: #C0C0B8;
+    font-weight: 500;
+  }
+  .contact-links {
+    margin-top: 2rem;
+    display: flex; flex-direction: column; gap: 0.8rem;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none;
+    color: #8A8A82;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .contact-item:hover { color: var(--gold-light); }
+  .contact-icon {
+    width: 36px; height: 36px;
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  /* ── GIT GUIDE ── */
+  #git {
+    background: var(--ink);
+    border-top: 0.5px solid var(--divider);
+  }
+  .git-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .git-step {
+    background: var(--card-bg);
+    border: 0.5px solid var(--divider);
+    padding: 1.8rem 1.5rem;
+    position: relative;
+  }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .git-step h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #CCCCC4;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .git-step p {
+    font-size: 0.8rem;
+    color: #666660;
+    line-height: 1.6;
+  }
+  .code-block {
+    background: #080808;
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-left: 2px solid var(--gold);
+    padding: 1.2rem 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: #A0C080;
+    margin-top: 0.8rem;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.8;
+  }
+  .code-comment { color: #4A5A40; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 4rem;
+    border-top: 0.5px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #444440;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-label   { animation: fadeUp 0.6s ease both; }
+  h1            { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-desc    { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-cta     { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-stats   { animation: fadeUp 0.7s 0.4s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .project-card.featured { grid-column: auto; grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-image-block { max-width: 280px; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">EU.</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#git">Git Guide</a></li>
+    <li><a href="https://www.linkedin.com/in/ememobong-ubia" target="_blank">LinkedIn ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="hero-label">Data Analyst · Finance & BI</p>
+      <h1>Turning <em>data</em><br>into decisions.</h1>
+      <p class="hero-desc">
+        Hi, I'm <strong style="color:#C0C0B8;font-weight:500;">Ememobong (EU) Ubia</strong> — a data analyst who specialises in financial analytics, customer insights, and business intelligence. I build dashboards and models that make complex data immediately actionable.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="https://www.linkedin.com/in/ememobong-ubia" target="_blank" class="btn-outline">Connect on LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-icon">🐍</div>
+        <div class="stat-number">Python</div>
+        <div class="stat-label">Pandas · NumPy · Matplotlib</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-number">Power BI</div>
+        <div class="stat-label">DAX · M Code · Visuals</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🗄️</div>
+        <div class="stat-number">SQL</div>
+        <div class="stat-label">MySQL · SQL Server</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">☁️</div>
+        <div class="stat-number">Azure</div>
+        <div class="stat-label">Data Lake · Warehouse</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-tag">Capabilities</p>
+    <h2>Tools & <em>Expertise</em></h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <ul class="skill-list">
+          <li>Python (Pandas, NumPy)</li>
+          <li>SQL (MySQL, SQL Server)</li>
+          <li>Matplotlib / Seaborn</li>
+          <li>BeautifulSoup (Web Scraping)</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">BI & Visualization</div>
+        <ul class="skill-list">
+          <li>Power BI (DAX, M Code)</li>
+          <li>Tableau</li>
+          <li>Excel (PivotTables, VLOOKUP)</li>
+          <li>ArcGIS / StoryMaps</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud & Platforms</div>
+        <ul class="skill-list">
+          <li>Microsoft Azure</li>
+          <li>Azure Data Lake</li>
+          <li>Azure Data Warehouse</li>
+          <li>GitHub (Version Control)</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Core Skills</div>
+        <ul class="skill-list">
+          <li>Financial Analysis</li>
+          <li>Customer Insights</li>
+          <li>Data Storytelling</li>
+          <li>Stakeholder Communication</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-tag">Portfolio</p>
+    <h2>Featured <em>Projects</em></h2>
+    <div class="projects-grid">
+
+      <!-- Featured: Financial Dashboard (in progress) -->
+      <div class="project-card featured">
+        <div>
+          <div class="project-tag">
+            <span class="featured-badge">In Progress</span>
+            Featured
+          </div>
+          <h3>Financial Analytics Dashboard</h3>
+          <p>An end-to-end financial analytics project covering revenue trends, cost analysis, and KPI tracking. Built with Python for data processing and Power BI for executive-level reporting — designed for strategic decision-making in fast-moving finance environments.</p>
+          <div class="tool-chips">
+            <span class="chip">Python</span>
+            <span class="chip">Power BI</span>
+            <span class="chip">SQL</span>
+            <span class="chip">DAX</span>
+            <span class="chip">Excel</span>
+          </div>
+          <a href="https://github.com/EUbia3" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+        <div class="dash-preview">
+          <div class="dash-bar">
+            <div class="dash-dot" style="background:#ff5f57"></div>
+            <div class="dash-dot" style="background:#febc2e"></div>
+            <div class="dash-dot" style="background:#28c840"></div>
+          </div>
+          <div class="dash-chart">
+            <div class="bar" style="height:45%"></div>
+            <div class="bar" style="height:62%"></div>
+            <div class="bar" style="height:38%"></div>
+            <div class="bar" style="height:78%"></div>
+            <div class="bar" style="height:55%"></div>
+            <div class="bar" style="height:91%"></div>
+            <div class="bar" style="height:67%"></div>
+            <div class="bar" style="height:83%"></div>
+            <div class="bar" style="height:72%"></div>
+            <div class="bar" style="height:95%"></div>
+            <div class="bar" style="height:80%"></div>
+            <div class="bar" style="height:88%"></div>
+          </div>
+          <div class="dash-metrics">
+            <div class="dash-metric">
+              <div class="dash-metric-val">$2.4M</div>
+              <div class="dash-metric-label">Revenue YTD</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-val">+18%</div>
+              <div class="dash-metric-label">Growth MoM</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-val">94%</div>
+              <div class="dash-metric-label">Target Hit</div>
+            </div>
+            <div class="dash-metric">
+              <div class="dash-metric-val">3.2x</div>
+              <div class="dash-metric-label">ROI Ratio</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Churn -->
+      <div class="project-card">
+        <div class="project-tag">Predictive Analytics</div>
+        <h3>Customer Churn Prediction</h3>
+        <p>Built ML models (decision trees, logistic regression) to identify high-risk churn segments and created a Power BI dashboard for stakeholder engagement.</p>
+        <div class="tool-chips">
+          <span class="chip">Power BI</span>
+          <span class="chip">RapidMiner</span>
+          <span class="chip">Excel</span>
+        </div>
+        <a href="https://github.com/EUbia3" target="_blank" class="project-link">View on GitHub →</a>
+      </div>
+
+      <!-- Web Scraping -->
+      <div class="project-card">
+        <div class="project-tag">Market Intelligence</div>
+        <h3>Web Scraping & Market Analysis</h3>
+        <p>Scraped real-time market data with Python and visualised trends using Matplotlib — turning raw web data into actionable business intelligence.</p>
+        <div class="tool-chips">
+          <span class="chip">Python</span>
+          <span class="chip">BeautifulSoup</span>
+          <span class="chip">Pandas</span>
+          <span class="chip">Matplotlib</span>
+        </div>
+        <a href="https://github.com/EUbia3" target="_blank" class="project-link">View on GitHub →</a>
+      </div>
+
+      <!-- Geospatial -->
+      <div class="project-card">
+        <div class="project-tag">Geospatial Analysis</div>
+        <h3>COVID-19 Geospatial Story Map</h3>
+        <p>Interactive global story map showing spread and recovery trends of COVID-19 using ArcGIS — combining data cleaning with compelling geospatial storytelling.</p>
+        <div class="tool-chips">
+          <span class="chip">ArcGIS</span>
+          <span class="chip">Data Cleaning</span>
+          <span class="chip">StoryMaps</span>
+        </div>
+        <a href="https://storymaps.arcgis.com/stories/c280a7358a834774a3cde898990b2d4b" target="_blank" class="project-link">View Live Story →</a>
+      </div>
+
+      <!-- Employee Attrition -->
+      <div class="project-card">
+        <div class="project-tag">HR Analytics</div>
+        <h3>Employee Attrition Dashboard</h3>
+        <p>Analysed HR data to uncover attrition drivers. Built interactive Excel dashboards with PivotTables and slicers to support data-driven HR decisions.</p>
+        <div class="tool-chips">
+          <span class="chip">Excel</span>
+          <span class="chip">PivotTables</span>
+          <span class="chip">Data Visualisation</span>
+        </div>
+        <a href="https://github.com/EUbia3" target="_blank" class="project-link">View on GitHub →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-tag">About Me</p>
+    <h2>The analyst <em>behind</em> the data</h2>
+    <div class="about-grid">
+      <div class="about-image-block">
+        <div class="about-avatar">EU</div>
+        <div class="about-accent"></div>
+      </div>
+      <div class="about-text">
+        <h3>Data Analyst · Finance & Business Intelligence</h3>
+        <p>I'm <strong>Ememobong (EU) Ubia</strong>, a data analyst with a passion for turning messy, complex datasets into clear narratives that drive real business decisions — especially in finance and customer intelligence contexts.</p>
+        <p>My toolkit spans <strong>Python, SQL, Power BI, and Excel</strong>, and I've worked across predictive modelling, web scraping, geospatial analysis, and HR analytics. I thrive where data meets strategy.</p>
+        <p>I'm currently deepening my expertise in <strong>financial analytics</strong> with a focus on building production-ready dashboards that executives can actually use. Always learning. Always building.</p>
+
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/ememobong-ubia" target="_blank" class="contact-item">
+            <div class="contact-icon">in</div>
+            linkedin.com/in/ememobong-ubia
+          </a>
+          <a href="https://github.com/EUbia3" target="_blank" class="contact-item">
+            <div class="contact-icon">gh</div>
+            github.com/EUbia3
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GIT GUIDE -->
+<section id="git">
+  <div class="section-inner">
+    <p class="section-tag">Git for Beginners</p>
+    <h2>Publishing your portfolio <em>to GitHub</em></h2>
+
+    <div class="git-steps">
+      <div class="git-step">
+        <div class="step-num">01</div>
+        <h4>Install Git</h4>
+        <p>Download Git from git-scm.com and install it. Then set your identity so your commits are signed.</p>
+        <div class="code-block"><span class="code-comment"># One-time setup</span>
+git config --global user.name "EU Ubia"
+git config --global user.email "you@email.com"</div>
+      </div>
+      <div class="git-step">
+        <div class="step-num">02</div>
+        <h4>Create the repo on GitHub</h4>
+        <p>Go to github.com → New Repository → name it <strong style="color:#C0C0B8">EUbia3.github.io</strong> → tick "Public" → Create. This exact name unlocks GitHub Pages hosting.</p>
+      </div>
+      <div class="git-step">
+        <div class="step-num">03</div>
+        <h4>Clone & add your file</h4>
+        <p>Clone the empty repo to your computer, drop in your portfolio HTML file, then stage it.</p>
+        <div class="code-block">git clone https://github.com/EUbia3/EUbia3.github.io
+cd EUbia3.github.io
+<span class="code-comment"># Copy index.html into this folder</span>
+git add index.html</div>
+      </div>
+      <div class="git-step">
+        <div class="step-num">04</div>
+        <h4>Commit & push</h4>
+        <p>A commit is a snapshot of your work. Push sends it to GitHub. Your site goes live automatically.</p>
+        <div class="code-block">git commit -m "Add portfolio site"
+git push origin main
+
+<span class="code-comment"># Live at:</span>
+<span class="code-comment"># https://EUbia3.github.io</span></div>
+      </div>
+    </div>
+
+    <div style="background: var(--card-bg); border: 0.5px solid var(--divider); border-left: 2px solid var(--gold); padding: 1.5rem 2rem;">
+      <p style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:0.6rem;">Pro tip — updating your site</p>
+      <p style="font-size:0.85rem; color:#666660; line-height:1.7;">Every time you make changes, just run these three commands. Your live site updates within seconds:</p>
+      <div class="code-block">git add .
+git commit -m "Update: describe what you changed"
+git push</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 EU Ubia · Data Analyst</span>
+  <span>Built for <a href="https://github.com/EUbia3" target="_blank">github.com/EUbia3</a></span>
+</footer>
+
+</body>
+</html>
